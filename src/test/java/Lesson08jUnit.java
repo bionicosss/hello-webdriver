@@ -1,20 +1,23 @@
 
+import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import org.junit.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
-public class Lesson07WebDriver {
-    public static void main(String[] args) throws InterruptedException {
+public class Lesson08jUnit {
+
+        @Tag("checkout")
+        @Test
+        public void checkingTotalSumOnCheckout() throws InterruptedException {
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.bookdepository.com/");
@@ -45,9 +48,10 @@ public class Lesson07WebDriver {
         WebElement totalSumOnCartPage = driver.findElement(By.xpath("//dl[@class='total']/dd"));
         WebElement checkoutButton = driver.findElement(By.xpath("(//a[contains(@class,'checkout-btn')])[last()]"));
         String totalOrderSum = totalSumOnCartPage.getText();
-        //check totalOrderSum = 8.49
-        checkoutButton.click();
 
+        assertEquals("8,49 €", totalOrderSum);
+
+        checkoutButton.click();
 
         WebElement totalSumOnCheckoutPage = driver.findElement(By.xpath("(//dd[contains(@class,'total-price')])[last()]"));
         WebElement subTotalOnCheckoutPage = driver.findElement(By.xpath("(//dd[@class='text-right'])[3]"));
@@ -56,33 +60,18 @@ public class Lesson07WebDriver {
         String subTotalOnCheckout = subTotalOnCheckoutPage.getText();
         String vatOnCheckout = vatOnCheckoutPage.getText();
         String totalOrderSumOnCheckout = totalSumOnCheckoutPage.getText();
-        // check subtotal, VAT, total
-        System.out.println("Subtotal = "+ subTotalOnCheckout);
-        System.out.println("VAT = "+ vatOnCheckout);
-        System.out.println("Total = "+ totalOrderSumOnCheckout);
 
+//        System.out.println("Subtotal = "+ subTotalOnCheckout);
+//        System.out.println("VAT = "+ vatOnCheckout);
+//        System.out.println("Total = "+ totalOrderSumOnCheckout);
 
-//        WebElement closeModalButton = driver.findElement(By.xpath("//button[contains(@class,'close')]"));
-//        closeModalButton.click();
-//        WebElement continueShoppingButton = driver.findElement(By.xpath("//div[@class='modal-content']/a[@class='btn btn-grey pull-left continue-shopping string-to-localize')]"));
-//        continueShoppingButton.click();
+        assertEquals("Subtotal on Checkout page isn't as expected.","8,49 €", subTotalOnCheckout);
+        assertEquals("VAT isn't zero.", "0,00 €", vatOnCheckout);
+        assertEquals("Total on Checkout page isn't as expected.","8,49 €", totalOrderSumOnCheckout);
 
-//        WebElement firstBookInTheSearchResult = driver.findElement(By.xpath("(//h3[@class='title']/a)[1]"));
-//        firstBookInTheSearchResult.click();
-
-        Thread.sleep(3000);
-        driver.quit();
-
-//        System.setProperty("webdriver.edge.driver", "C://Webdriver/msedgedriver.exe");
-//        WebDriver driverEdge = new EdgeDriver();
-//        driverEdge.get("http://seleniumhq.org");
-//        Thread.sleep(2000);
-//        driverEdge.quit();
-
-//        WebDriver driverFirefox = new FirefoxDriver();
-//        driverFirefox.get("http://seleniumhq.org");
-//        Thread.sleep(2000);
-//        driverFirefox.quit();
+                Thread.sleep(2000);
+                driver.quit();
 
     }
 }
+
