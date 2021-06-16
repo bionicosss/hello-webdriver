@@ -49,7 +49,7 @@ public class Lesson08jUnit {
         WebElement checkoutButton = driver.findElement(By.xpath("(//a[contains(@class,'checkout-btn')])[last()]"));
         String totalOrderSum = totalSumOnCartPage.getText();
 
-        assertEquals("8,49 €", totalOrderSum);
+        assertEquals("8,53 €", totalOrderSum);
 
         checkoutButton.click();
 
@@ -65,9 +65,9 @@ public class Lesson08jUnit {
 //        System.out.println("VAT = "+ vatOnCheckout);
 //        System.out.println("Total = "+ totalOrderSumOnCheckout);
 
-        assertEquals("Subtotal on Checkout page isn't as expected.","8,49 €", subTotalOnCheckout);
+        assertEquals("Subtotal on Checkout page isn't as expected.","8,53 €", subTotalOnCheckout);
         assertEquals("VAT isn't zero.", "0,00 €", vatOnCheckout);
-        assertEquals("Total on Checkout page isn't as expected.","8,49 €", totalOrderSumOnCheckout);
+        assertEquals("Total on Checkout page isn't as expected.","8,53 €", totalOrderSumOnCheckout);
 
                 Thread.sleep(2000);
                 driver.quit();
