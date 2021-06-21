@@ -1,5 +1,5 @@
 
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,19 +8,27 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class Lesson08jUnit {
+
+        @BeforeAll
+        public static void initAll() {
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+                assertEquals("src/main/resources/chromedriver.exe", System.getProperty("webdriver.chrome.driver"));
+        }
+        WebDriver driver = new ChromeDriver();
+
+        @BeforeEach
+        public void openPage() { driver.get("https://www.bookdepository.com/"); }
 
         @Tag("checkout")
         @Test
         public void checkingTotalSumOnCheckout() throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.bookdepository.com/");
 
         new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[contains(@aria-label,'Search')]")));
@@ -43,13 +51,15 @@ public class Lesson08jUnit {
         checkoutButtonOnPopUp.click();
 
         new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//a[contains(@class,'checkout-btn')])[last()]")));
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//a[contains(@class,'optimizely-control')])[last()]")));
 
         WebElement totalSumOnCartPage = driver.findElement(By.xpath("//dl[@class='total']/dd"));
-        WebElement checkoutButton = driver.findElement(By.xpath("(//a[contains(@class,'checkout-btn')])[last()]"));
+        WebElement checkoutButton = driver.findElement(By.xpath("(//a[contains(@class,'optimizely-control')])[last()]"));
         String totalOrderSum = totalSumOnCartPage.getText();
 
-        assertEquals("8,53 €", totalOrderSum);
+        assertAll("Checking Total Order sum on Confirm checkout popup",
+                () -> assertEquals( "8,65 €", totalOrderSum, "Total on Confirm checkout popup isn't as expected.")
+                );
 
         checkoutButton.click();
 
@@ -65,13 +75,18 @@ public class Lesson08jUnit {
 //        System.out.println("VAT = "+ vatOnCheckout);
 //        System.out.println("Total = "+ totalOrderSumOnCheckout);
 
-        assertEquals("Subtotal on Checkout page isn't as expected.","8,53 €", subTotalOnCheckout);
-        assertEquals("VAT isn't zero.", "0,00 €", vatOnCheckout);
-        assertEquals("Total on Checkout page isn't as expected.","8,53 €", totalOrderSumOnCheckout);
+//        assertEquals("Subtotal on Checkout page isn't as expected.","8,65 €", subTotalOnCheckout);
+//        assertEquals("VAT isn't zero.", "0,00 €", vatOnCheckout);
+//        assertEquals("Total on Checkout page isn't as expected.","8,65 €", totalOrderSumOnCheckout);
 
-                Thread.sleep(2000);
-                driver.quit();
+          assertAll("Checking Subtotal, VAT, Total",
+                  () -> assertEquals("8,65 €", subTotalOnCheckout,"Subtotal on Checkout page isn't as expected."),
+                  () -> assertEquals("0,00 €", vatOnCheckout, "VAT isn't zero."),
+                  () -> assertEquals("8,65 €", totalOrderSumOnCheckout,"Total on Checkout page isn't as expected."));
 
+//                Thread.sleep(2000);
     }
+        @AfterEach
+        public void closeBrowser() { driver.quit(); }
 }
 
