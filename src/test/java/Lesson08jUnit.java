@@ -79,12 +79,11 @@ public class Lesson08jUnit {
 //        assertEquals("VAT isn't zero.", "0,00 €", vatOnCheckout);
 //        assertEquals("Total on Checkout page isn't as expected.","8,65 €", totalOrderSumOnCheckout);
 
-          assertAll("Checking Subtotal, VAT, Total",
-                  () -> assertEquals("8,65 €", subTotalOnCheckout,"Subtotal on Checkout page isn't as expected."),
-                  () -> assertEquals("0,00 €", vatOnCheckout, "VAT isn't zero."),
-                  () -> assertEquals("8,65 €", totalOrderSumOnCheckout,"Total on Checkout page isn't as expected."));
+        assertAll("Checking Subtotal, VAT, Total",
+                 () -> assertEquals("8,65 €", subTotalOnCheckout,"Subtotal on Checkout page isn't as expected."),
+                 () -> assertEquals("0,00 €", vatOnCheckout, "VAT isn't zero."),
+                 () -> assertEquals("8,65 €", totalOrderSumOnCheckout,"Total on Checkout page isn't as expected."));
 
-//                Thread.sleep(2000);
     }
         @AfterEach
         public void closeBrowser() { driver.quit(); }
