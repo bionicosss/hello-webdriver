@@ -29,14 +29,10 @@ public class Stepdefs {
         homePage.AddToCartButtonFirstSearchResult().get(0).click();
     }
 
-    @And("confirm checkout popup is displayed")
-    public void confirmCheckoutPopupIsDisplayed() {
-        homePage.waitUntilElementDisplayed(10, HomePage.DIALOG_MODAL);
-    }
-
     @And("the user clicks Checkout button")
     public void clickCheckoutButton() {
 //        String saleBookPrice = homePage.salePrice().getText();
+        homePage.waitUntilElementDisplayed(10, HomePage.DIALOG_MODAL);
         homePage.checkoutButtonOnModal().click();
 //        return saleBookPrice;
     }
