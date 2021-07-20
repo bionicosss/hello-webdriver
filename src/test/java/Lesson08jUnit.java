@@ -47,6 +47,8 @@ public class Lesson08jUnit {
         new WebDriverWait(driver,10)
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='modal-dialog modal-md']")));
 
+        WebElement salePrice = driver.findElement(By.xpath("//b[contains(@class,'big total')]"));
+        String saleBookPrice = salePrice.getText();
         WebElement checkoutButtonOnPopUp = driver.findElement(By.xpath("//a[contains(@class,'continue-to-basket')]"));
         checkoutButtonOnPopUp.click();
 
@@ -58,7 +60,7 @@ public class Lesson08jUnit {
         String totalOrderSum = totalSumOnCartPage.getText();
 
         assertAll("Checking Total Order sum on Confirm checkout popup",
-                () -> assertEquals( "8,65 €", totalOrderSum, "Total on Confirm checkout popup isn't as expected.")
+                () -> assertEquals( saleBookPrice, totalOrderSum, "Total on Confirm checkout popup isn't as expected.")
                 );
 
         checkoutButton.click();
@@ -80,9 +82,9 @@ public class Lesson08jUnit {
 //        assertEquals("Total on Checkout page isn't as expected.","8,65 €", totalOrderSumOnCheckout);
 
         assertAll("Checking Subtotal, VAT, Total",
-                 () -> assertEquals("8,65 €", subTotalOnCheckout,"Subtotal on Checkout page isn't as expected."),
+                 () -> assertEquals(saleBookPrice, subTotalOnCheckout,"Subtotal on Checkout page isn't as expected."),
                  () -> assertEquals("0,00 €", vatOnCheckout, "VAT isn't zero."),
-                 () -> assertEquals("8,65 €", totalOrderSumOnCheckout,"Total on Checkout page isn't as expected."));
+                 () -> assertEquals(saleBookPrice, totalOrderSumOnCheckout,"Total on Checkout page isn't as expected."));
 
     }
         @AfterEach
