@@ -17,7 +17,7 @@ public class Stepdefs {
         homePage.openWebsite();
     }
 
-    @When("the user searches {string} item via search field")
+    @When("^the user searches ([\\w\\s]+,?[\\w\\s]*.?[\\w\\s]*) item via search field$")
     public void searchBookViaSearchField(String book) {
         homePage.waitUntilElementDisplayed(10, HomePage.SEARCH_FIELD_BUTTON);
         homePage.searchFieldInput().sendKeys(book);
@@ -37,7 +37,7 @@ public class Stepdefs {
 //        return saleBookPrice;
     }
 
-    @And("total order sum is {string} on confirm checkout popup")
+    @And("^total order sum is (\\d+,\\d{2}\\s€) on confirm checkout popup$")
     public void checkTotalSumIsEqualItemPrice(String bookPrice) {
         homePage.waitUntilElementDisplayed(10, HomePage.CHECKOUT_BUTTON);
         String totalOrderSum = homePage.totalSumOnCartPage().getText();
@@ -51,7 +51,7 @@ public class Stepdefs {
         homePage.checkoutButton().click();
     }
 
-    @Then("Subtotal value is {string} and VAT value is {string} and Total value is {string}")
+    @Then("^Subtotal value is (\\d+,\\d{2}\\s€) and VAT value is (\\d+,\\d{2}\\s€) and Total value is (\\d+,\\d{2}\\s€)$")
     public void checkSubtotalValueIsEqualSaleItemPrice(String bookPrice, String vat, String bookPrice2) {
         String totalOrderSumOnCheckout = homePage.totalSumOnCheckoutPage().getText();
         String subTotalOnCheckout = homePage.subTotalOnCheckoutPage().getText();
