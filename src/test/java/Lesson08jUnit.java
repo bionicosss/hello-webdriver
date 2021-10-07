@@ -1,8 +1,11 @@
 
+import com.cucumber.junit.driver.DriverManager;
+import io.cucumber.java.Scenario;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.junit.runner.RunWith;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,7 +15,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+@RunWith(Cucumber.class)
+@CucumberOptions(plugin = {"pretty", "com.epam.reportportal.cucumber.ScenarioReporter"})
 public class Lesson08jUnit {
 
         @BeforeAll
@@ -49,14 +53,15 @@ public class Lesson08jUnit {
 
         WebElement salePrice = driver.findElement(By.xpath("//b[contains(@class,'big total')]"));
         String saleBookPrice = salePrice.getText();
+        //String saleBookPrice = "9,84 €";
         WebElement checkoutButtonOnPopUp = driver.findElement(By.xpath("//a[contains(@class,'continue-to-basket')]"));
         checkoutButtonOnPopUp.click();
 
         new WebDriverWait(driver,10)
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//a[contains(@class,'optimizely-control')])[last()]")));
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//a[contains(@class,'checkout-btn')])[last()]")));
 
         WebElement totalSumOnCartPage = driver.findElement(By.xpath("//dl[@class='total']/dd"));
-        WebElement checkoutButton = driver.findElement(By.xpath("(//a[contains(@class,'optimizely-control')])[last()]"));
+        WebElement checkoutButton = driver.findElement(By.xpath("(//a[contains(@class,'checkout-btn')])[last()]"));
         String totalOrderSum = totalSumOnCartPage.getText();
 
         assertAll("Checking Total Order sum on Confirm checkout popup",
@@ -66,7 +71,7 @@ public class Lesson08jUnit {
         checkoutButton.click();
 
         WebElement totalSumOnCheckoutPage = driver.findElement(By.xpath("(//dd[contains(@class,'total-price')])[last()]"));
-        WebElement subTotalOnCheckoutPage = driver.findElement(By.xpath("(//dd[@class='text-right'])[3]"));
+        WebElement subTotalOnCheckoutPage = driver.findElement(By.xpath("(//dd[@class='text-right'])"));
         WebElement vatOnCheckoutPage = driver.findElement(By.xpath("(//dd[contains(@class,'total-tax')])[last()]"));
 
         String subTotalOnCheckout = subTotalOnCheckoutPage.getText();

@@ -6,12 +6,12 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = "pretty",
+        plugin = {"pretty", "com.epam.reportportal.cucumber.ScenarioReporter"},
         monochrome = true,
         tags = "@test",
         glue = "com.cucumber.junit",
         features = {"src/test/resources/com.cucumber.junit/features/"}
 )
 
-public class CucumberTestRunner {
+public class ReportPortalTestRunner {
 }

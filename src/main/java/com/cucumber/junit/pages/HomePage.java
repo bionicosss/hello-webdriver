@@ -17,9 +17,9 @@ public class HomePage extends BasePage {
     private static final String SALE_PRICE = "//b[contains(@class,'big total')]";
     private static final String CHECKOUT_BUTTON_MODAL = "//a[contains(@class,'continue-to-basket')]";
     private static final String TOTAL_SUM_ON_CART_PAGE = "//dl[@class='total']/dd";
-    public static final String CHECKOUT_BUTTON = "(//a[contains(@class,'optimizely-control')])[last()]";
+    public static final String CHECKOUT_BUTTON = "(//a[contains(@class,'checkout-btn')])[last()]";
     private static final String TOTAL_SUM_CHECKOUT = "(//dd[contains(@class,'total-price')])[last()]";
-    private static final String SUBTOTAL_SUM_CHECKOUT = "(//dd[@class='text-right'])[3]";
+    private static final String SUBTOTAL_SUM_CHECKOUT = "(//dd[@class='text-right'])";
     private static final String VAT_CHECKOUT = "(//dd[contains(@class,'total-tax')])[last()]";
 
     public void openWebsite(){
