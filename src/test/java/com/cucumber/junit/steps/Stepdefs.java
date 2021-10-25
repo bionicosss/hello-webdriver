@@ -11,16 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.status.StatusLogger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.junit.runner.RunWith;
 
 
 public class Stepdefs {
     private HomePage homePage = new HomePage();
     static final Logger logger = LogManager.getLogger(Stepdefs.class);
-    //protected final static Logger logger = StatusLogger.getLogger();
+//    final static Logger logger = Logger.getLogger(Stepdefs.class);
 
     @Given("the user open bookdepository.com website")
     public void openBookdepositoryComWebsite() {
@@ -69,7 +68,7 @@ public class Stepdefs {
 
     @Then("^Subtotal value is (\\d+,\\d{2}\\s€) and VAT value is (\\d+,\\d{2}\\s€) and Total value is (\\d+,\\d{2}\\s€)$")
     public void checkSubtotalValueIsEqualSaleItemPrice(String bookPrice, String vat, String bookPrice2) {
-        logger.traceEntry();
+//        logger.info();
         try {
             logger.info("Verifying Subtotal, VAT, Total values");
             String totalOrderSumOnCheckout = homePage.totalSumOnCheckoutPage().getText();
@@ -86,7 +85,7 @@ public class Stepdefs {
         } catch (Exception e){
             String errorMessage = e.getMessage();
 
-            logger.error("Error: {}", errorMessage);
+            logger.error("Error: {}", e);
         }
     }
 }
